@@ -29,7 +29,10 @@ namespace :prototype do
   task :templates => FileList[
     './views/v2-b/start-page.liquid',
     './views/v2-b/signin.liquid',
-    './views/v2-b/applicant-details.liquid'
+    './views/v2-b/applicant-details.liquid',
+    './views/v2-b/response-approved.liquid',
+    './views/v2-b/response-referred.liquid',
+    './views/index.liquid'
   ]
 
   task :stylesheets => FileList[
@@ -89,8 +92,10 @@ namespace :prototype do
   # Also convert the includes in the resultant liquid to have .liquid extension
   rule '.liquid' => lambda {|p| grow_dependencies liquid_to_nunjucks p } do |file|
     FileUtils.mkdir_p File.dirname file.name
-    liquid = `node ../meta-template/bin/parse.js --format jekyll #{file.source}`
-    File.write file.name, liquid.gsub(/\.html/, '.liquid')
+    command = "node ../meta-template/bin/parse.js --format jekyll #{file.source}"
+    rake_output_message command
+    liquid = `#{command}`
+    File.write file.name, liquid.gsub(/\.html' %}/, '.liquid\' %}')
   end
 
   # Grab all stylesheets from the govuk modules dir

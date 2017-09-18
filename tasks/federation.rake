@@ -1,5 +1,11 @@
-import File.join Gem.loaded_specs['aquae'].loaded_from.pathmap('%d'), 'tasks', 'certificates.rake'
+AQUAE_SPEC = Gem.loaded_specs['aquae']
+if AQUAE_SPEC.nil?
+  STDERR.puts "Gem `aquae` not found - certificate tasks will not be available. You may need to use `bundle exec`."
+else
+  import File.join AQUAE_SPEC.loaded_from.pathmap('%d'), 'tasks', 'certificates.rake'
+end
 
+desc 'Generate a federation for use with the demo'
 file 'blue-badge.federation' => ['bb-web-client.crt', 'bb-query-server.crt', 'bb-da-pip.crt', 'bb-da-dla.crt'] do |file|
   require 'aquae/protos/metadata.pb'
   require 'aquae/federation'

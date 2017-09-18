@@ -4,7 +4,7 @@
 
 # Run `rake prototype` to do the generation.
 # If you don't have a copy of the prototype repository,
-# run `rake prototype:clone prototype:generate` first.
+# run `rake prototype:clone prototype:install` first.
 
 ROOT = File.join '.', 'pde-design-sprint1'
 ASSETS_DIR = File.join ROOT, 'app', 'assets' 
@@ -12,20 +12,24 @@ VIEW_DIR = File.join ROOT, 'app', 'views'
 GOVUK_MODULES_DIR = File.join ROOT, 'node_modules'
 GOVUK_ASSETS_DIR = File.join GOVUK_MODULES_DIR, 'govuk_template_jinja', 'assets'
 
+desc 'Grab all of the files required by the web prototype'
 task :prototype => [:'prototype:stylesheets', :'prototype:templates', :'prototype:javascripts', :'prototype:images']
 
 namespace :prototype do
+  desc 'Clone a copy of the node.js prototype repository'
   task :clone do
     sh "git clone https://github.com/alphagov/pde-design-sprint1.git #{ROOT}"
   end
 
-  task :generate do
+  desc 'Install the dependencies to grab from'
+  task :install do
     cd ROOT do
       sh 'npm install'
       sh 'node ./gulpfile.js'
     end
   end
 
+  desc 'Generate all the liquid templates by converting the nunjucks sources'
   task :templates => FileList[
     './views/v2-b/start-page.liquid',
     './views/v2-b/signin.liquid',
@@ -35,6 +39,7 @@ namespace :prototype do
     './views/index.liquid'
   ]
 
+  desc 'Generate all the stylesheets by copying or via Sass'
   task :stylesheets => FileList[
     './public/stylesheets/govuk-template.css',
     './public/stylesheets/govuk-template-print.css',
@@ -42,6 +47,7 @@ namespace :prototype do
     './public/stylesheets/application.css'
   ]
 
+  desc 'Grab all the javascripts'
   task :javascripts => FileList[
     './public/javascripts/govuk-template.js',
     './public/javascripts/details.polyfill.js',
@@ -52,6 +58,7 @@ namespace :prototype do
     './public/javascripts/application.js'
   ]
 
+  desc 'Grab all the images'
   task :images => FileList[
     './public/images/gov.uk_logotype_crown.png',
     './public/stylesheets/images/gov.uk_logotype_crown.png',

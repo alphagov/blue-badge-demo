@@ -4,28 +4,31 @@
 
 # Run `rake prototype` to do the generation.
 # If you don't have a copy of the prototype repository,
-# run `rake prototype:clone prototype:install` first.
+# run `git submodule update --init` first.
 
 ROOT = File.join '.', 'pde-design-sprint1'
 ASSETS_DIR = File.join ROOT, 'app', 'assets' 
 VIEW_DIR = File.join ROOT, 'app', 'views'
 GOVUK_MODULES_DIR = File.join ROOT, 'node_modules'
 GOVUK_ASSETS_DIR = File.join GOVUK_MODULES_DIR, 'govuk_template_jinja', 'assets'
+TRANSPILER = File.join '.', 'meta-template'
+TRANSPILER_MODULES_DIR = File.join TRANSPILER, 'node_modules'
 
 desc 'Grab all of the files required by the web prototype'
 task :prototype => [:'prototype:stylesheets', :'prototype:templates', :'prototype:javascripts', :'prototype:images']
 
 namespace :prototype do
-  desc 'Clone a copy of the node.js prototype repository'
-  task :clone do
-    sh "git clone https://github.com/alphagov/pde-design-sprint1.git #{ROOT}"
-  end
-
   desc 'Install the dependencies to grab from'
-  task :install do
+  directory GOVUK_MODULES_DIR do
     cd ROOT do
       sh 'npm install'
-      sh 'node ./gulpfile.js'
+    end
+  end
+
+  desc 'Install the transpiler'
+  directory TRANSPILER_MODULES_DIR do
+    cd TRANSPILER do
+      sh 'npm install'
     end
   end
 
@@ -65,7 +68,11 @@ namespace :prototype do
     './public/images/separator-2x.png',
     './public/stylesheets/images/open-government-licence_2x.png',
     './public/stylesheets/images/govuk-crest-2x.png',
-    './public/images/images/hero-button/arrow@2x.png'
+    './public/stylesheets/images/open-government-licence.png',
+    './public/stylesheets/images/govuk-crest.png',
+    './public/images/images/hero-button/arrow.png',
+    './public/images/images/hero-button/arrow@2x.png',
+    './public/images/separator.png'
   ]
 
   # Map from a liquid file path to it's dependency
@@ -85,7 +92,7 @@ namespace :prototype do
   def grow_dependencies nunjucks_file
     nunjucks = File.read nunjucks_file
     liquid_dependencies = nunjucks.scan(INCLUDE_TAG).flatten.map &method(:nunjucks_to_liquid)
-    [nunjucks_file].concat liquid_dependencies
+    [TRANSPILER_MODULES_DIR, nunjucks_file].concat liquid_dependencies
   end
 
   # When copying, create any missing directories
@@ -99,14 +106,14 @@ namespace :prototype do
   # Also convert the includes in the resultant liquid to have .liquid extension
   rule '.liquid' => lambda {|p| grow_dependencies liquid_to_nunjucks p } do |file|
     FileUtils.mkdir_p File.dirname file.name
-    command = "node ../meta-template/bin/parse.js --format jekyll #{file.source}"
+    command = "node ./meta-template/bin/parse.js --format jekyll #{file.sources[1]}"
     rake_output_message command
     liquid = `#{command}`
     File.write file.name, liquid.gsub(/\.html' %}/, '.liquid\' %}')
   end
 
   # Grab all stylesheets from the govuk modules dir
-  rule /\.\/public\/stylesheets\/\S+\.css$/ => lambda {|p| File.join GOVUK_ASSETS_DIR, 'stylesheets', p.pathmap('%f') } do |file|
+  rule /\.\/public\/stylesheets\/\S+\.css$/ => lambda {|p| File.join(GOVUK_ASSETS_DIR, 'stylesheets', p.pathmap('%f')) } do |file|
     copyfile file.source, file.name
   end
 
@@ -126,7 +133,7 @@ namespace :prototype do
   end
 
   # Grab all govuk javascripts from the govuk dir
-  rule /\.\/public\/javascripts\/govuk\/\S+\.js$/ => lambda {|p| File.join GOVUK_MODULES_DIR, 'govuk_frontend_toolkit', 'javascripts', 'govuk', p.pathmap('%f') } do |file|
+  rule /\.\/public\/javascripts\/govuk\/\S+\.js$/ => lambda {|p| File.join(GOVUK_MODULES_DIR, 'govuk_frontend_toolkit', 'javascripts', 'govuk', p.pathmap('%f')) } do |file|
     copyfile file.source, file.name
   end
 
@@ -139,4 +146,8 @@ namespace :prototype do
   rule /\.\/public\/\S+\.png$/ => lambda {|p| File.join ASSETS_DIR, 'images', p.pathmap('%f') } do |file|
     copyfile file.source, file.name
   end
+
+  # Make sure module assets are installed before attempting to access them
+  ANY_PROTOTYPE_ASSET = /^#{GOVUK_MODULES_DIR}.*/
+  rule ANY_PROTOTYPE_ASSET => GOVUK_MODULES_DIR
 end

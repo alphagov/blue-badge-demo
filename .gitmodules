@@ -1,0 +1,7 @@
+[submodule "pde-design-sprint1"]
+	path = pde-design-sprint1
+	url = https://github.com/alphagov/pde-design-sprint1.git
+	branch = master
+[submodule "meta-template"]
+	path = meta-template
+	url = https://github.com/shawnbot/meta-template.git

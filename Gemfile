@@ -7,3 +7,7 @@ gem 'sinatra'
 gem 'rake'
 gem 'liquid'
 gem 'sass'
+
+group :development do
+  gem 'aquae', github: 'alphagov/aquae'
+end

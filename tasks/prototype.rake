@@ -7,7 +7,7 @@
 # run `git submodule update --init` first.
 
 ROOT = File.join '.', 'pde-design-sprint1'
-ASSETS_DIR = File.join ROOT, 'app', 'assets' 
+ASSETS_DIR = File.join ROOT, 'app', 'assets'
 VIEW_DIR = File.join ROOT, 'app', 'views'
 GOVUK_MODULES_DIR = File.join ROOT, 'node_modules'
 GOVUK_ASSETS_DIR = File.join GOVUK_MODULES_DIR, 'govuk_template_jinja', 'assets'
@@ -39,6 +39,7 @@ namespace :prototype do
     './views/v2-b/applicant-details.liquid',
     './views/v2-b/response-approved.liquid',
     './views/v2-b/response-referred.liquid',
+    './views/v2-b/response-declined.liquid',
     './views/index.liquid'
   ]
 

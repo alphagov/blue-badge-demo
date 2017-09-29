@@ -59,7 +59,7 @@ post /\/v2-b\/response/ do
   if query.answer.value == true
     view 'v2-b/response-approved.liquid'
   else
-    view 'v2-b/response-referred.liquid'
+    view 'v2-b/response-declined.liquid'
   end
 end
 

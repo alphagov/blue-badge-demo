@@ -1,4 +1,4 @@
-# PDE Blue Badge Demo
+# Personal Data Exchange Blue Badge Demo
 
 This repository is a demonstration of the capabilities of the AQuAE system as applied to an eligibility checker scenario.
 

@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+whirlpool = Gem.loaded_specs['whirlpool']
+whirlpoold = File.join File.dirname(whirlpool.loaded_from), whirlpool.bindir, 'whirlpoold'
+
+federation = [
+  Process::spawn("ruby #{whirlpoold} ./bb-query-server.config.yml"),
+  Process::spawn("ruby #{whirlpoold} ./bb-da-pip.config.yml"),
+  Process::spawn("ruby #{whirlpoold} ./bb-da-dla.config.yml"),
+  Process::spawn("ruby ./bin/prototypes ./bb-web-client.config.yml")
+]
+
+Signal.trap('INT') do
+  STDERR.puts "Bye."
+  federation.each {|pid| Process::kill 'INT', pid }
+end
+
+Process::waitall

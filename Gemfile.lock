@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: https://github.com/alphagov/whirlpool.git
-  revision: bd21d4e2005bb7b60b04c49b04db986ba855ac59
+  revision: 9433cf0ad8551b1973c431e59b39887f384dfc87
   specs:
     whirlpool (0.1)
       aquae

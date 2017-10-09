@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      html {
+        background-color: #EBEBEB;
+        font-family: "Helvetica Neue", "Arial", sans-serif;
+      }
+
+      body::after {
+        content: "GDS";
+        bottom: 0;
+        right: 0;
+        left: 0;
+        padding: 0.5em 1em;
+        background-color: #2E89CA;
+        color: white;
+        text-align: right;
+        position: fixed;
+        font-size: 18pt;
+      }
+
+      .node {
+        position: absolute;
+        width: 12vh;
+        text-align: center;
+        font-weight: bold;
+      }
+
+      .node img {
+        height: 12vh;
+      }
+
+      .node.left {
+        left: calc(25vw - 10vh);
+      }
+
+      .node.middle {
+        left: calc(50vw - 10vh);
+      }
+
+      .node.right {
+        left: calc(75vw - 10vh);
+      }
+
+      .node.vertical-middle {
+        top: calc(50vh - 2em - 10vh);
+      }
+
+      .node.vertical-upper {
+        top: calc(33vh - 2em - 10vh);
+      }
+
+      .node.vertical-lower {
+        top: calc(66vh - 2em - 10vh);
+      }
+
+      .node.vertical-very-lower {
+        top: calc(77vh - 2em - 10vh);
+      }
+
+      .node.vertical-very-upper {
+        top: calc(22vh - 2em - 10vh);
+      }
+
+      .node figcaption {
+        text-transform: uppercase;
+        font-size: 1.5vh;
+      }
+
+      .jtk-connector path {
+        stroke: #000;
+        stroke-width: 2pt;
+      }
+
+      @keyframes highlight-path {
+        from { stroke: #F00; }
+        to   { stroke: #000; }
+      }
+
+      .jtk-connector.highlight path {
+        animation-name: highlight-path;
+        animation-duration: 5s;
+      }
+    </style>
+    <script language="javascript" src="/public/demo/jsplumb.js"></script>
+    <script language="javascript">
+      function getConnector(source_name, target_name) {
+        var source = document.querySelector("#" + source_name + " img");
+        var target = document.querySelector("#" + target_name + " img");
+        return jsPlumb.getConnections({source: source, target: target})[0].connector.getDisplayElements()[0];
+      }
+
+      function flashConnector(source, target) {
+        var connector = getConnector(source, target);
+        connector.classList.remove("highlight");
+        setTimeout(function () { connector.classList.add("highlight"); }, 250);
+      }
+
+      function connect(target_name, source_name) {
+        var source = document.querySelector("#" + source_name);
+        var target = document.querySelector("#" + target_name);
+        jsPlumb.connect({
+          source: source.querySelector("img"),
+          target: target.querySelector("img"),
+          anchors: [ anchor(source, target), anchor(target, source) ],
+          overlays: [ ["Arrow", { location: 0.7 }] ],
+
+          endpoint: "Blank"
+        });
+      }
+
+      function anchor(element, other) {
+        if (element.classList.contains("left")) {
+          return "Right";
+        } else if (element.classList.contains("right")) {
+          return "Left";
+        } else if (element.classList.contains("vertical-lower") || element.classList.contains("vertical-very-lower")) {
+          return "Top";
+        } else if (element.classList.contains("vertical-upper") || element.classList.contains("vertical-very-upper")) {
+          return "Bottom";
+        } else if (anchor(other) == "Right") {
+          return "Left";
+        } else if (anchor(other) == "Left") {
+          return "Right";
+        }
+      }
+
+      jsPlumb.ready(function () {
+        window.addEventListener("resize", jsPlumb.repaintEverything);
+        jsPlumb.setContainer(document.querySelector('body'));
+        connect("sp1", "qs");
+        connect("qs", "dwp");
+        connect("qs", "dwp-dla");
+        /*connect("opg", "dwp");
+        connect("nhs", "dwp");
+        connect("hmlr", "opg");
+        connect("sp2", "opg");
+        connect("opg", "sp2");*/
+      });
+    </script>
+  </head>
+  <body>
+    <figure id="sp2" class="node left vertical-upper">
+      <img src="/public/demo/service-provider.png" alt="SP">
+      <figcaption>County Council #1</figcaption>
+    </figure>
+    <figure id="sp1" class="node left vertical-lower">
+      <img src="/public/demo/service-provider.png" alt="SP">
+      <figcaption>County Council #2</figcaption>
+    </figure>
+    <figure id="qs"  class="node middle vertical-middle">
+      <img src="/public/demo/query.png" alt="QS">
+      <figcaption>BB Logic (DfT)</figcaption>
+    </figure>
+    <figure id="dwp" class="node right vertical-upper">
+      <img src="/public/demo/data-authority.png" alt="DA (PIP)">
+      <figcaption>DWP (PIP)</figcaption>
+    </figure>
+    <figure id="dwp-dla" class="node right vertical-middle">
+      <img src="/public/demo/data-authority.png" alt="DA (PIP)">
+      <figcaption>DWP (DLA)</figcaption>
+    </figure>
+    <figure id="opg" class="node middle vertical-very-lower">
+      <img src="/public/demo/data-authority.png" alt="DA (DLA)">
+      <figcaption>Powers Of Attorney (OPG)</figcaption>
+    </figure>
+    <figure id="nhs" class="node middle vertical-very-upper">
+      <img src="/public/demo/data-authority.png" alt="DA (DLA)">
+      <figcaption>NHS</figcaption>
+    </figure>
+    <figure id="hmlr" class="node right vertical-lower">
+      <img src="/public/demo/data-authority.png" alt="DA (DLA)">
+      <figcaption>HMLR</figcaption>
+    </figure>
+  </body>
+</html>

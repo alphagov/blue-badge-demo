@@ -1,4 +1,6 @@
-public/
-views/
+public/*
+!public/demo/
+views/*
+!views/demo.liquid
 /bb-*
 /blue-badge.federation

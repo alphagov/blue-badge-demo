@@ -22,14 +22,32 @@
 
       .node {
         position: absolute;
-        width: 12vh;
+        width: 28vh;
         text-align: center;
-        font-weight: bold;
+        font-size: 2.5vh;
+        border: 3px solid black;
+        background-color: white;
       }
 
       .node img {
-        height: 12vh;
+        height: 6vh;
+        width: 6vh;
+        float: left;
+        padding: 3vh 1vh;
+        border-right: 3px solid black;
+        margin-right: 0.5em;
       }
+
+      .node figcaption {
+        padding: 0.5em;
+        text-align: left;
+        font-weight: bold;
+      }
+
+      .node.purple img { background-color: #90378F; }
+      .node.green img  { background-color: #85B045; }
+      .node.blue img   { background-color: #42A2B3; }
+      .node.yellow img { background-color: #F8BD32; }
 
       .node.left {
         left: calc(25vw - 10vh);
@@ -63,11 +81,6 @@
         top: calc(22vh - 2em - 10vh);
       }
 
-      .node figcaption {
-        text-transform: uppercase;
-        font-size: 1.5vh;
-      }
-
       .jtk-connector path {
         stroke: #000;
         stroke-width: 2pt;
@@ -86,8 +99,8 @@
     <script language="javascript" src="/public/demo/jsplumb.js"></script>
     <script language="javascript">
       function getConnector(source_name, target_name) {
-        var source = document.querySelector("#" + source_name + " img");
-        var target = document.querySelector("#" + target_name + " img");
+        var source = document.querySelector("#" + source_name);
+        var target = document.querySelector("#" + target_name);
         return jsPlumb.getConnections({source: source, target: target})[0].connector.getDisplayElements()[0];
       }
 
@@ -101,8 +114,8 @@
         var source = document.querySelector("#" + source_name);
         var target = document.querySelector("#" + target_name);
         jsPlumb.connect({
-          source: source.querySelector("img"),
-          target: target.querySelector("img"),
+          source: source,
+          target: target,
           anchors: [ anchor(source, target), anchor(target, source) ],
           overlays: [ ["Arrow", { location: 0.7 }] ],
 
@@ -141,27 +154,27 @@
     </script>
   </head>
   <body>
-    <figure id="sp2" class="node left vertical-upper">
+    <figure id="sp2" class="node blue left vertical-upper">
       <img src="/public/demo/service-provider.png" alt="SP">
       <figcaption>County Council #1</figcaption>
     </figure>
-    <figure id="sp1" class="node left vertical-lower">
+    <figure id="sp1" class="node blue left vertical-lower">
       <img src="/public/demo/service-provider.png" alt="SP">
       <figcaption>County Council #2</figcaption>
     </figure>
-    <figure id="qs"  class="node middle vertical-middle">
+    <figure id="qs"  class="node purple middle vertical-middle">
       <img src="/public/demo/query.png" alt="QS">
       <figcaption>BB Logic (DfT)</figcaption>
     </figure>
-    <figure id="dwp" class="node right vertical-upper">
+    <figure id="dwp" class="node green right vertical-upper">
       <img src="/public/demo/data-authority.png" alt="DA (PIP)">
       <figcaption>DWP (PIP)</figcaption>
     </figure>
-    <figure id="dwp-dla" class="node right vertical-middle">
+    <figure id="dwp-dla" class="node green right vertical-middle">
       <img src="/public/demo/data-authority.png" alt="DA (PIP)">
       <figcaption>DWP (DLA)</figcaption>
     </figure>
-    <figure id="opg" class="node middle vertical-very-lower">
+    <figure id="opg" class="node yellow middle vertical-very-lower">
       <img src="/public/demo/data-authority.png" alt="DA (DLA)">
       <figcaption>Powers Of Attorney (OPG)</figcaption>
     </figure>

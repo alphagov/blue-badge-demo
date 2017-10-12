@@ -2,13 +2,13 @@ GIT
   remote: https://github.com/alphagov/aquae.git
   revision: 4852e26353e6dcbfcda6b359619325ca9447b722
   specs:
-    aquae (0.1.0)
-      protobuf (~> 3.7.5)
+    aquae (0.1.0.13.dev)
+      protobuf (~> 3.7)
       rgl (~> 0.5.3)
 
 GIT
   remote: https://github.com/alphagov/whirlpool.git
-  revision: 9433cf0ad8551b1973c431e59b39887f384dfc87
+  revision: fd0af26cb10327bd33246d964f956455b9090a9b
   specs:
     whirlpool (0.1)
       aquae
@@ -30,7 +30,7 @@ GEM
     middleware (0.1.0)
     minitest (5.10.3)
     mustermann (1.0.1)
-    protobuf (3.7.5)
+    protobuf (3.8.1)
       activesupport (>= 3.2)
       middleware
       thor

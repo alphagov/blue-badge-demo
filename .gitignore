@@ -3,4 +3,5 @@ public/*
 views/*
 !views/demo.liquid
 /bb-*
+!/bb-*.queries.rb
 /blue-badge.federation

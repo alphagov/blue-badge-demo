@@ -5,7 +5,7 @@ else
   import File.join AQUAE_SPEC.loaded_from.pathmap('%d'), 'tasks', 'certificates.rake'
 end
 
-task :config => ['bb-web-client.config.yml', 'bb-query-server.config.yml', 'bb-da-pip.config.yml']
+task :config => ['bb-web-client.config.yml', 'bb-query-server.config.yml', 'bb-da-pip.config.yml', 'bb-da-dla.config.yml']
 
 desc 'Generate a federation for use with the demo'
 file 'blue-badge.federation' => ['bb-web-client.crt', 'bb-query-server.crt', 'bb-da-pip.crt', 'bb-da-dla.crt'] do |file|
@@ -45,8 +45,7 @@ file 'blue-badge.federation' => ['bb-web-client.crt', 'bb-query-server.crt', 'bb
     name: 'bb?',
     node: [ImplementingNode.new(nodeId: 'bb-query-server')],
     choice: [
-      Choice.new(requiredQuery: ['pip>8?']),
-      Choice.new(requiredQuery: ['dla-higher?'])
+      Choice.new(requiredQuery: ['pip>8?', 'dla-higher?']),
     ])
 
   File.binwrite file.name, m.encode

@@ -11,7 +11,12 @@ configure do
   Liquid::Template.file_system = BodgeFileSystem.new(File.join(File.dirname(__FILE__),'../', 'views/'), '%s'.freeze)
 end
 
-viaduct_app_instance = Whirlpool::Application.new Whirlpool::Configuration.new ARGV[0]
+config = Whirlpool::Configuration.new ARGV[0]
+logger = Logger.new "#{config.this_node.name}.log.txt"
+logger.formatter = proc do |severity, datetime, progname, msg|
+  "#{severity.ljust(5)} [#{config.this_node.name}] (#{datetime.strftime('%s%6N')}): #{msg}\n"
+end
+viaduct_app_instance = Whirlpool::Application.new config, logger
 
 def view path, options={}
   options = {'asset_path' => '/public/'}.update(options)

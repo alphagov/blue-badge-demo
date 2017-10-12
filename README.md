@@ -66,3 +66,15 @@ Commands below will achieve the desired effect on a POSIX shell. The demonstrati
         $ bundle exec whirlpoold ./bb-da-dla.config.yml &
 
 4. Open a web browser to http://localhost:4567/.
+
+## Playback
+
+The prototype will also render a query playback tool at http://localhost:4567/demo. This shows the federation used in the prototype and the links between the nodes.
+
+It can also replay log output and show the way in which messages move through the system. Pasting log output from each of the Whirlpool processes into the box will allow the playback to be stepped through, and will show the state at each node using symbols. The arrow buttons in the bottom left can step through the messages.
+
+Log messages can be combined from the demo using:
+
+    $ cat *.log.txt > full-log.txt
+
+The replayer will parse and automatically order the log messages according to time, so they can be pasted in any order.

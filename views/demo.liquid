@@ -305,8 +305,9 @@
           return true;
         }
 
-        var asking_match = /Asking/.exec(entry.message);
+        var asking_match = /Asking (\S+)/.exec(entry.message);
         if (asking_match != null) {
+          showBubble(entry.node, asking_match[1]);
           showIcon(entry.node, "asking");
           return true;
         }

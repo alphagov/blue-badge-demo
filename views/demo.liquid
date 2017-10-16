@@ -139,10 +139,11 @@
       }
 
       .node.matched::after { content: "\1F197\fe0f"; }
-      .node.unmatched::after { content: "\274C\fe0f"; }
+      .node.unmatched::after { content: "\2753\fe0f"; }
       .node.matching::after { content: "\1F50D\FE0F"; animation: fade 2s infinite; }
       .node.asking::after { content: "\1F4AC\FE0F"; animation: fade 2s infinite; }
       .node.answered::after { content: "\2714\FE0F"; }
+      .node.answered_bad::after { content: "\274C\FE0F"; }
 
       .node::after {
         position: absolute;
@@ -262,7 +263,7 @@
       }
 
       function resetIcons() {
-        document.querySelectorAll(".node").forEach(function(n) { n.classList.remove("matched", "unmatched", "matching", "asking", "answered")});
+        document.querySelectorAll(".node").forEach(function(n) { n.classList.remove("matched", "unmatched", "matching", "asking", "answered", "answered_bad")});
       }
 
       function stepLogEntry(direction) {
@@ -298,15 +299,27 @@
           return true;
         }
 
+        var match_complete_match = /Matching incomplete/.exec(entry.message);
+        if (match_complete_match != null) {
+          showIcon(entry.node, "unmatched");
+          return true;
+        }
+
         var asking_match = /Asking/.exec(entry.message);
         if (asking_match != null) {
           showIcon(entry.node, "asking");
           return true;
         }
 
-        var answered_match = /Answering/.exec(entry.message);
+        var answered_match = /ValueResponse/.exec(entry.message);
         if (answered_match != null) {
           showIcon(entry.node, "answered");
+          return true;
+        }
+
+        var answered_match = /ErrorResponse/.exec(entry.message);
+        if (answered_match != null) {
+          showIcon(entry.node, "answered_bad");
           return true;
         }
 
@@ -315,7 +328,7 @@
 
       function showIcon(node, klass) {
         var elem = document.getElementById(node);
-        elem.classList.remove("unmatched", "matching", "matched", "asking", "answered");
+        elem.classList.remove("unmatched", "matching", "matched", "asking", "answered", "answered_bad");
         elem.classList.add(klass);
       }
 

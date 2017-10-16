@@ -269,7 +269,7 @@
       function stepLogEntry(direction) {
         do {
           window.cursor += direction;
-          if (window.cursor < 0 || window.cursor >= window.entries.length) { resetIcons(); return drawLogEntry(0); }
+          if (window.cursor < 0 || window.cursor >= window.entries.length) { resetIcons(); return drawLogEntry(window.cursor = 0); }
           if (direction < 0) { resetIcons(); }
         } while (!drawLogEntry(window.cursor));
       }

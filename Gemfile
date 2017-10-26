@@ -9,5 +9,5 @@ gem 'liquid'
 gem 'sass'
 
 group :development do
-  gem 'aquae', github: 'alphagov/aquae'
+  gem 'aquae', github: 'alphagov/aquae-ruby'
 end

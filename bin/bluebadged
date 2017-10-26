@@ -7,7 +7,8 @@ federation = [
   Process::spawn("ruby #{whirlpoold} ./bb-query-server.config.yml"),
   Process::spawn("ruby #{whirlpoold} ./bb-da-pip.config.yml"),
   Process::spawn("ruby #{whirlpoold} ./bb-da-dla.config.yml"),
-  Process::spawn("ruby ./bin/prototypes ./bb-web-client.config.yml")
+  Process::spawn("ruby ./bin/prototypes ./bb-web-client.config.yml"),
+  Process::spawn("ruby ./bin/demod ./bb-da-pip.log.txt ./bb-da-dla.log.txt ./bb-query-server.log.txt ./bb-web-client.log.txt")
 ]
 
 Signal.trap('INT') do

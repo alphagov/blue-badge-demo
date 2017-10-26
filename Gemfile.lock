@@ -1,8 +1,8 @@
 GIT
-  remote: https://github.com/alphagov/aquae.git
+  remote: https://github.com/alphagov/aquae-ruby.git
   revision: 4852e26353e6dcbfcda6b359619325ca9447b722
   specs:
-    aquae (0.1.0.13.dev)
+    aquae (0.1.0)
       protobuf (~> 3.7)
       rgl (~> 0.5.3)
 
@@ -24,7 +24,8 @@ GEM
       tzinfo (~> 1.1)
     concurrent-ruby (1.0.5)
     ffi (1.9.18-x86-mingw32)
-    i18n (0.8.6)
+    i18n (0.9.0)
+      concurrent-ruby (~> 1.0)
     lazy_priority_queue (0.1.1)
     liquid (4.0.0)
     middleware (0.1.0)

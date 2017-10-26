@@ -71,10 +71,6 @@ post /\/v2-b\/response/ do
   end
 end
 
-get '/demo' do
-  view 'demo.liquid'
-end
-
 # Generate routes to serve all public assets.
 # This is safer than a `get ./public/*` because
 # the glob is expanded up front.

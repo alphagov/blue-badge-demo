@@ -339,12 +339,46 @@
         bubble.innerText = message;
       }
 
+      function refreshAvailable() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/available", true);
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState == XMLHttpRequest.DONE && xhr.status === 200) {
+            var available = JSON.parse(xhr.responseText);
+            var select = document.getElementById("available");
+            select.innerHTML = "";
+            for (i in available) {
+              var opt = document.createElement('option');
+              opt.value = available[i];
+              opt.innerHTML = available[i];
+              select.appendChild(opt);
+            }
+          }
+        }
+        xhr.send();
+      }
+
+      function loadNewLog(event) {
+        if (!event.target.value) return;
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/" + event.target.value, true);
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState == XMLHttpRequest.DONE && xhr.status === 200) {
+            document.getElementById("logs").innerHTML = xhr.responseText;
+            updateLogs();
+          }
+        };
+        xhr.send();
+      }
+
       jsPlumb.ready(function () {
         window.addEventListener("resize", jsPlumb.repaintEverything);
         document.getElementById("logs").addEventListener("change", updateLogs);
         document.getElementById("back").addEventListener("click", function () { stepLogEntry(-1); });
         document.getElementById("next").addEventListener("click", function () { stepLogEntry(+1); });
         document.getElementById("reset").addEventListener("click", function () { drawLogEntry(window.cursor = 0); });
+        document.getElementById("refresh").addEventListener("click", refreshAvailable);
+        document.getElementById("available").addEventListener("change", loadNewLog)
         jsPlumb.setContainer(document.querySelector('#diagram'));
         connect("bb-web-client", "bb-query-server");
         connect("bb-query-server", "bb-da-pip");
@@ -397,6 +431,8 @@
     <textarea id="logs">
     </textarea>
     <div class="controls">
+      <select id="available"></select>
+      <button id="refresh">&#x1F504;</button>
       <button id="reset">&#x23EA;</button>
       <button id="back">&#x25C0;</button>
       <button id="next">&#x25B6;</button>

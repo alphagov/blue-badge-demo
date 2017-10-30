@@ -1,0 +1,7 @@
+---
+applications:
+- name: blue-badge-demo
+  buildpack: ruby_buildpack
+  command: bundle exec ruby ./bin/bluebadged
+  memory: 128MB
+  instances: 1

@@ -341,7 +341,7 @@
 
       function refreshAvailable() {
         var xhr = new XMLHttpRequest();
-        xhr.open("GET", "/available", true);
+        xhr.open("GET", "./available", true);
         xhr.onreadystatechange = function() {
           if (xhr.readyState == XMLHttpRequest.DONE && xhr.status === 200) {
             var available = JSON.parse(xhr.responseText);
@@ -361,7 +361,7 @@
       function loadNewLog(event) {
         if (!event.target.value) return;
         var xhr = new XMLHttpRequest();
-        xhr.open("GET", "/" + event.target.value, true);
+        xhr.open("GET", "./" + value, true);
         xhr.onreadystatechange = function() {
           if (xhr.readyState == XMLHttpRequest.DONE && xhr.status === 200) {
             document.getElementById("logs").innerHTML = xhr.responseText;

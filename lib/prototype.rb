@@ -1,0 +1,86 @@
+#!/usr/bin/env ruby
+require 'sinatra/base'
+require 'liquid'
+require 'whirlpool'
+require 'whirlpool/fake_query_signer'
+require_relative '../lib/bodge_file_system'
+
+class FrontEndPrototype < Sinatra::Application
+  enable :sessions, :static
+
+  configure do
+    Liquid::Template.file_system = BodgeFileSystem.new(File.join(File.dirname(__FILE__),'../', 'views/'), '%s'.freeze)
+  end
+
+  def initialize
+    super
+    config = Whirlpool::Configuration.new settings.configfile
+    logger = Logger.new File.join(settings.log_dir, "#{config.this_node.name}.log.txt")
+    logger.formatter = proc do |severity, datetime, progname, msg|
+      "#{severity.ljust(5)} [#{config.this_node.name}] (#{datetime.strftime('%s%6N')}): #{msg}\n"
+    end
+    @viaduct_app_instance = Whirlpool::Application.new config, logger
+  end
+
+  def view path, options={}
+    options = {'asset_path' => '/public/'}.update(options)
+    template = Liquid::Template.parse File.read File.join('./views/', path)
+    template.render options
+  end
+
+  ValidationFailure = Class.new RuntimeError
+
+  # These are all basic page displays
+  get '/' do view 'index.liquid' end
+  get /\/v2-b\/start-page(.html)?/ do view 'v2-b/start-page.liquid' end
+  get /\/v2-b\/signin(.html)?/ do view 'v2-b/signin.liquid' end
+  post /\/v2-b\/applicant-details(.html)?/ do view 'v2-b/applicant-details.liquid' end
+
+  def assert_present param, name
+    raise ValidationFailure, "No #{name} supplied." if param.nil? || param.chomp.chars.none?
+  end
+
+  def assert_numeric param, name
+    raise ValidationFailure, "#{name.capitalize} was not a number." unless param =~ /^[0-9]+$/
+  end
+
+  def assert_range param, name, min, max
+    raise ValidationFailure, "#{name.capitalize} must be between #{min} and #{max}." unless param >= min && param <= max
+  end
+
+  # Handle and run the PDE query
+  post /\/v2-b\/response/ do
+    begin
+      assert_present params['lastname'], 'surname'
+      assert_present params['dob-year'], 'year of birth'
+      assert_present params['address'], 'address'
+      assert_numeric params['dob-year'], 'year of birth'
+      year_of_birth = params['dob-year'].to_i
+      assert_range year_of_birth, 'year of birth', 1800, Time.now.year
+    rescue ValidationFailure => e
+      STDERR.puts params.inspect
+      return e.message
+    end
+
+    query = @viaduct_app_instance.start_query
+    query.question_name = 'bb?'
+    query.choice = query.choices.value.first
+    signer = Whirlpool::FakeQuerySigner.new query, query.choices.value.first
+    signer.identity = {:surname => params['lastname'], :postcode => params['address'], :birthYear => year_of_birth}
+
+    if query.answer.value
+      view 'v2-b/response-approved.liquid'
+    else
+      view 'v2-b/response-declined.liquid'
+    end
+  end
+
+  # Generate routes to serve all public assets.
+  # This is safer than a `get ./public/*` because
+  # the glob is expanded up front.
+  Dir.glob("./public/**/*") do |path|
+    get path[1..-1] do
+      send_file path
+    end
+  end
+end

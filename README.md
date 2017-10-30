@@ -60,7 +60,7 @@ Commands below will achieve the desired effect on a POSIX shell. The demonstrati
 
     You could also run the individual components seperately.
 
-        $ bundle exec ruby ./bin/prototypes ./bb-web-client.config.yml &
+        $ bundle exec rackup ./bin/config.ru &
         $ bundle exec whirlpoold ./bb-query-server.config.yml &
         $ bundle exec whirlpoold ./bb-da.pip.config.yml &
         $ bundle exec whirlpoold ./bb-da-dla.config.yml &
@@ -69,12 +69,8 @@ Commands below will achieve the desired effect on a POSIX shell. The demonstrati
 
 ## Playback
 
-The prototype will also render a query playback tool at http://localhost:4567/demo. This shows the federation used in the prototype and the links between the nodes.
+The prototype will also render a query playback tool at http://localhost:4567/demo/. This shows the federation used in the prototype and the links between the nodes.
 
-It can also replay log output and show the way in which messages move through the system. Pasting log output from each of the Whirlpool processes into the box will allow the playback to be stepped through, and will show the state at each node using symbols. The arrow buttons in the bottom left can step through the messages.
+It can also replay log output and show the way in which messages move through the system. Selecting a query from the bottom-left dropdown will load a log file from a query made using the prototype. Playback can be stepped through and will show the state at each node using symbols. The arrow buttons in the bottom left can step through the messages.
 
-Log messages can be combined from the demo using:
-
-    $ cat *.log.txt > full-log.txt
-
-The replayer will parse and automatically order the log messages according to time, so they can be pasted in any order.
+Pasting log output from each of the Whirlpool processes into the box will also work. The replayer will parse and automatically order the log messages according to time, so they can be pasted in any order.

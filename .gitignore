@@ -5,3 +5,4 @@ views/*
 /bb-*
 !/bb-*.queries.rb
 /blue-badge.federation
+/vendor

@@ -2,7 +2,7 @@ AQUAE_SPEC = Gem.loaded_specs['aquae']
 if AQUAE_SPEC.nil?
   STDERR.puts "Gem `aquae` not found - certificate tasks will not be available. You may need to use `bundle exec`."
 else
-  import File.join AQUAE_SPEC.loaded_from.pathmap('%d'), 'tasks', 'certificates.rake'
+  import File.join AQUAE_SPEC.full_gem_path, 'tasks', 'certificates.rake'
 end
 
 task :config => ['bb-web-client.config.yml', 'bb-query-server.config.yml', 'bb-da-pip.config.yml', 'bb-da-dla.config.yml']

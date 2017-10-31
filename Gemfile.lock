@@ -1,17 +1,10 @@
 GIT
-  remote: https://github.com/alphagov/aquae-ruby.git
-  revision: 4852e26353e6dcbfcda6b359619325ca9447b722
-  specs:
-    aquae (0.1.0)
-      protobuf (~> 3.7)
-      rgl (~> 0.5.3)
-
-GIT
-  remote: https://github.com/alphagov/whirlpool.git
-  revision: fd0af26cb10327bd33246d964f956455b9090a9b
+  remote: https://github.com/alphagov/aquae-whirlpool.git
+  revision: a292bb44ff30ef5386c7fc25dfd4a89b68db319a
+  branch: demo
   specs:
     whirlpool (0.1)
-      aquae
+      aquae (= 0.1.pre.2153dfa26)
       concurrent-ruby
 
 GEM
@@ -22,6 +15,9 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+    aquae (0.1.pre.2153dfa26)
+      protobuf (~> 3.7)
+      rgl (~> 0.5.3)
     concurrent-ruby (1.0.5)
     ffi (1.9.18-x86-mingw32)
     i18n (0.9.0)
@@ -39,14 +35,14 @@ GEM
     rack (2.0.3)
     rack-protection (2.0.0)
       rack
-    rake (12.1.0)
+    rake (12.2.1)
     rb-fsevent (0.10.2)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
     rgl (0.5.3)
       lazy_priority_queue (~> 0.1.0)
       stream (~> 0.5.0)
-    sass (3.5.1)
+    sass (3.5.3)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -60,14 +56,13 @@ GEM
     thor (0.20.0)
     thread_safe (0.3.6)
     tilt (2.0.8)
-    tzinfo (1.2.3)
+    tzinfo (1.2.4)
       thread_safe (~> 0.1)
 
 PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
-  aquae!
   liquid
   rack
   rake

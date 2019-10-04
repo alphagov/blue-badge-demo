@@ -1,0 +1,49 @@
+
+
+{% capture block__head %}
+  {% include 'includes/head.liquid' %}
+{% endcapture %}
+
+{% capture block__cookie_message %}
+  <p>{{ cookieText | safe }}</p>
+{% endcapture %}
+
+{% capture block__proposition_header %}
+
+  <div class="header-proposition">
+    <div class="content">
+      <a href="#proposition-links" class="js-header-toggle menu">Menu</a>
+      <nav id="proposition-menu">
+        <a href="/" id="proposition-name">
+          
+          {% capture block__service_name %}
+            {% if serviceName %} {{ serviceName }} {% endif %}
+          {% endcapture %}
+        </a>
+        <!--
+        <ul id="proposition-links">
+          <li><a href="url-to-page-1" class="active">Navigation item #1</a></li>
+          <li><a href="url-to-page-2">Navigation item #2</a></li>
+        </ul>
+        -->
+      </nav>
+    </div>
+  </div>
+
+{% endcapture %}
+
+{% capture block__footer_support_links %}
+  {% if useAutoStoreData %}
+    <ul>
+      <li>
+        <a href="/prototype-admin/clear-data">Clear data</a>
+      </li>
+    </ul>
+  {% endif %}
+{% endcapture %}
+
+{% capture block__body_end %}
+  {% include 'includes/scripts.liquid' %}
+  <!-- GOV.UK Prototype kit {{ releaseVersion }} -->
+{% endcapture %}
+{% include 'dgu-layout.liquid' %}

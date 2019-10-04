@@ -78,6 +78,7 @@ namespace :prototype do
 
   # Map from a liquid file path to it's dependency
   def liquid_to_nunjucks liquid_file
+    puts ["liquid_to_nunjucks:", __LINE__, liquid_file].join' '
     File.join VIEW_DIR, liquid_file.pathmap('%{views,}d/%n.html')
   end
 
@@ -91,6 +92,10 @@ namespace :prototype do
 
   # Read the passed path and return an array of all liquid dependencies
   def grow_dependencies nunjucks_file
+    nunjucks_file = nunjucks_file.gsub('\/', '/')
+    nunjucks_file = nunjucks_file.gsub('.\\', '')
+    #nunjucks_file = nunjucks_file.gsub('.\', '')
+    puts ["grow_dependencies:", __LINE__, nunjucks_file].join' '
     nunjucks = File.read nunjucks_file
     liquid_dependencies = nunjucks.scan(INCLUDE_TAG).flatten.map &method(:nunjucks_to_liquid)
     [TRANSPILER_MODULES_DIR, nunjucks_file].concat liquid_dependencies

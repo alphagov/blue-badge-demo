@@ -1,0 +1,100 @@
+{% if block__top_of_page %}{{ block__top_of_page }}{% else %}{% endif %}
+<!DOCTYPE html>
+<!--[if lt IE 9]><html class="lte-ie8" lang="{{ html_lang | default: 'en' }}"><![endif]-->
+<!--[if gt IE 8]><!--><html lang="{{ html_lang | default: 'en' }}"><!--<![endif]-->
+  <head>
+    <meta charset="utf-8" />
+    <title>{% if block__page_title %}{{ block__page_title }}{% else %} Personal Data Exchange{% endif %}</title>
+
+    <!--[if gt IE 8]><!--><link href="{{ asset_path }}stylesheets/govuk-template.css?0.19.2" media="screen" rel="stylesheet" /><!--<![endif]-->
+    <!--[if IE 6]><link href="{{ asset_path }}stylesheets/govuk-template-ie6.css?0.19.2" media="screen" rel="stylesheet" /><![endif]-->
+    <!--[if IE 7]><link href="{{ asset_path }}stylesheets/govuk-template-ie7.css?0.19.2" media="screen" rel="stylesheet" /><![endif]-->
+    <!--[if IE 8]><link href="{{ asset_path }}stylesheets/govuk-template-ie8.css?0.19.2" media="screen" rel="stylesheet" /><![endif]-->
+    <link href="{{ asset_path }}stylesheets/govuk-template-print.css?0.19.2" media="print" rel="stylesheet" />
+
+    <!--[if IE 8]><link href="{{ asset_path }}stylesheets/fonts-ie8.css?0.19.2" media="all" rel="stylesheet" /><![endif]-->
+    <!--[if gte IE 9]><!--><link href="{{ asset_path }}stylesheets/fonts.css?0.19.2" media="all" rel="stylesheet" /><!--<![endif]-->
+    <!--[if lt IE 9]><script src="{{ asset_path }}javascripts/ie.js?0.19.2"></script><![endif]-->
+
+    <link rel="shortcut icon" href="{{ asset_path }}images/favicon.ico?0.19.2" type="image/x-icon" />
+    <link rel="mask-icon" href="{{ asset_path }}images/gov.uk_logotype_crown.svg?0.19.2" color="#0b0c0c">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{{ asset_path }}images/apple-touch-icon-152x152.png?0.19.2">
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="{{ asset_path }}images/apple-touch-icon-120x120.png?0.19.2">
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="{{ asset_path }}images/apple-touch-icon-76x76.png?0.19.2">
+    <link rel="apple-touch-icon-precomposed" href="{{ asset_path }}images/apple-touch-icon-60x60.png?0.19.2">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:image" content="{{ asset_path }}images/opengraph-image.png?0.19.2">
+
+    {% if block__head %}{{ block__head }}{% else %}{% endif %}
+  </head>
+
+  <body class="{% if block__body_classes %}{{ block__body_classes }}{% else %}{% endif %}">
+    <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
+
+    {% if block__body_start %}{{ block__body_start }}{% else %}{% endif %}
+
+    <div id="skiplink-container">
+      <div>
+        <a href="#content" class="skiplink">{{ skip_link_message | default: 'Skip to main content' }}</a>
+      </div>
+    </div>
+
+    <div id="global-cookie-message">
+      {% if block__cookie_message %}{{ block__cookie_message }}{% else %}{% endif %}
+    </div>
+
+    <header role="banner" id="global-header" class="{% if block__header_class %}{{ block__header_class }}{% else %}{% endif %}">
+      <div class="header-wrapper">
+        <div class="header-global">
+          <div class="header-logo">
+            <a href="/" title="Go to the GOV.UK Personal Data Exchange homepage" id="logo" class="content">
+              <img src="{{ asset_path }}images/gov.uk_logotype_crown.png" width="36" height="32" alt=""> GOV.UK
+              <span id="product-name">Personal Data Exchange</span>
+            </a>
+            <strong class="phase-tag">ALPHA</strong>
+          </div>
+          {% if block__inside_header %}{{ block__inside_header }}{% else %}{% endif %}
+        </div>
+        {% if block__proposition_header %}{{ block__proposition_header }}{% else %}{% endif %}
+      </div>
+    </header>
+    <div id="global-header-bar"></div>
+
+    {% if block__after_header %}{{ block__after_header }}{% else %}{% endif %}
+
+    {% if block__content %}{{ block__content }}{% else %}{% endif %}
+
+    <footer class="group js-footer" id="footer" role="contentinfo">
+
+      <div class="footer-wrapper">
+        {% if block__footer_top %}{{ block__footer_top }}{% else %}{% endif %}
+
+        <div class="footer-meta">
+          <div class="footer-meta-inner">
+            {% if block__footer_support_links %}{{ block__footer_support_links }}{% else %}{% endif %}
+
+            <div class="open-government-licence">
+              <p class="logo"><a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="license">Open Government Licence</a></p>
+
+                {% if block__licence_message %}{{ block__licence_message }}{% else %}<p>All content is available under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="license">Open Government Licence v3.0</a>, except where otherwise stated</p>{% endif %}
+
+            </div>
+          </div>
+
+          <div class="copyright">
+            <a href="http://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/copyright-and-re-use/crown-copyright/">{{ crown_copyright_message | default: '&copy; Crown copyright' | safe }}</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <div id="global-app-error" class="app-error hidden"></div>
+
+    <script src="{{ asset_path }}javascripts/govuk-template.js?0.19.2"></script>
+
+    {% if block__body_end %}{{ block__body_end }}{% else %}{% endif %}
+
+    <script>if (typeof window.GOVUK === 'undefined') document.body.className = document.body.className.replace('js-enabled', '');</script>
+  </body>
+</html>

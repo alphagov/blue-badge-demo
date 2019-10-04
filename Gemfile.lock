@@ -1,17 +1,15 @@
-GIT
-  remote: git://github.com/alphagov/aquae-ruby.git
-  revision: 768e6fd75efdc399a8aec11d0dd9b3a8259c30fe
+PATH
+  remote: ../aquae-ruby
   specs:
-    aquae (0.1.0)
-      protobuf (~> 3.7.5)
+    aquae (0.1.pre.50990ee41)
+      protobuf (~> 3.7)
       rgl (~> 0.5.3)
 
-GIT
-  remote: git://github.com/alphagov/aquae-whirlpool.git
-  revision: dd8091f046210b22d27f0cab3850fecb6453deb9
+PATH
+  remote: ../aquae-whirlpool
   specs:
     whirlpool (0.1)
-      aquae
+      aquae (= 0.1.pre.50990ee41)
       concurrent-ruby
 
 GEM
@@ -26,14 +24,14 @@ GEM
     concurrent-ruby (1.1.5)
     ffi (1.9.18)
     ffi (1.9.18-x86-mingw32)
-    i18n (1.6.0)
+    i18n (1.7.0)
       concurrent-ruby (~> 1.0)
     lazy_priority_queue (0.1.1)
     liquid (4.0.0)
     middleware (0.1.0)
     minitest (5.12.2)
     mustermann (1.0.1)
-    protobuf (3.7.5)
+    protobuf (3.10.1)
       activesupport (>= 3.2)
       middleware
       thor

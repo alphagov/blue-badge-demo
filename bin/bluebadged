@@ -6,7 +6,7 @@ whirlpoold = File.join File.dirname(whirlpool.loaded_from), whirlpool.bindir, 'w
 federation = [
   Process::spawn("ruby #{whirlpoold} ./bb-query-server.config.yml"),
   Process::spawn("ruby #{whirlpoold} ./bb-da-pip.config.yml"),
-  Process::spawn("ruby #{whirlpoold} ./bb-da-dla.config.yml"),
+  #Process::spawn("ruby #{whirlpoold} ./bb-da-dla.config.yml"),
   Process::spawn("ruby ./bin/prototypes ./bb-web-client.config.yml")
 ]
 

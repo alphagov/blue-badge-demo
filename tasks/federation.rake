@@ -9,6 +9,7 @@ task :config => ['bb-web-client.config.yml', 'bb-query-server.config.yml', 'bb-d
 
 desc 'Generate a federation for use with the demo'
 file 'blue-badge.federation' => ['bb-web-client.crt', 'bb-query-server.crt', 'bb-da-pip.crt', 'bb-da-dla.crt'] do |file|
+#  require 'debug'
   require 'aquae/protos/metadata.pb'
   require 'aquae/federation'
   include Aquae::Metadata
